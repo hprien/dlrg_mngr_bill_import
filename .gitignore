@@ -1,0 +1,5 @@
+venv
+Rechnungen.csv
+*xlsx
+*.csv
+__pycache__
