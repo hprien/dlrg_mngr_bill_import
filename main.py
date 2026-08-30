@@ -111,6 +111,8 @@ if __name__ == "__main__":
             continue
 
         bill_index = manager_bill_import.add_bill(first_name=bill_key[0], last_name=bill_key[1])
+        print(f"{BILL_TITLE} - {bill_key[0]} {bill_key[1]}")
+
         for item in bill_items:
             manager_bill_import.add_bill_item(
                 bill_index,
@@ -119,5 +121,8 @@ if __name__ == "__main__":
                 item['price'],
                 item['quantity']
             )
+            print(f"\t{item['product_name']}\t{item['price']}\t{item['quantity']}")
+
+        print(f"Sum: {total}\n")
 
     manager_bill_import.write_import_file(Path.cwd() / "bill_import.csv")
