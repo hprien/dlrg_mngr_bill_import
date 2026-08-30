@@ -52,12 +52,12 @@ class Bill_Import:
 
         return len(self.bills) - 1
 
-    def add_bill_item(self, bill_index, product_name, price, quantity):
+    def add_bill_item(self, bill_index, product_name, product_description, price, quantity):
         bill = self.bills[bill_index]
         bill["bill_items"].append({
             "bill_title": self.bill_title,
             "item_title": product_name,
-            "item_description": f"",
+            "item_description": product_description,
             "quantity": quantity,
             "price": price
         })

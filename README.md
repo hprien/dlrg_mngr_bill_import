@@ -11,7 +11,7 @@ source venv/bin/activate
 ## bill.csv
 This file has the following structure:
 ```csv
-Vorname;Name;Artikel;Preis;Anzahl;Summe
+Vorname;Name;Artikel Titel;Artikel Beschreibung;Preis;Anzahl;Summe
 ```
 
 ## mitglieder.csv

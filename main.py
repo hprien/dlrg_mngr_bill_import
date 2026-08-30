@@ -33,8 +33,9 @@ def extract_bill_item(bill_item: list[str]) -> dict[str, Any]:
         "first_name": normalize_string(bill_item[0]),
         "last_name": normalize_string(bill_item[1]),
         "product_name": normalize_string(bill_item[2]),
-        "price": normalize_price(bill_item[3]),
-        "quantity": int(bill_item[4])
+        "product_description": normalize_string(bill_item[3]),
+        "price": normalize_price(bill_item[4]),
+        "quantity": int(bill_item[5])
     }
 
 def import_bills(file_path: Path) -> dict[tuple, list[dict[str: Any]]]:
@@ -79,11 +80,12 @@ if __name__ == "__main__":
         if total <= 0.0:
             continue
 
-        bill_index = manager_bill_import.add_bill(bill_key[0], bill_key[1])
+        bill_index = manager_bill_import.add_bill(first_name=bill_key[0], last_name=bill_key[1])
         for item in bill_items:
             manager_bill_import.add_bill_item(
                 bill_index,
                 item['product_name'],
+                item['product_description'],
                 item['price'],
                 item['quantity']
             )
