@@ -18,6 +18,9 @@ MITGLIEDER_FILENAME = "mitglieder.csv"
 MITGLIEDER_SEPERATOR = ";"
 MITGLIEDER_HAS_HEADER = True
 
+DISCOUNT_EUR = 0
+DISCOUNT_TITLE = "Bekleidungszuschuss"
+
 def normalize_price(price: str) -> float:
     price = price.replace(",", ".")
     price = price.replace("€", "")
@@ -28,15 +31,40 @@ def normalize_price(price: str) -> float:
 def normalize_string(s: str) -> str:
     return s.replace("\"", "").strip()
 
-def extract_bill_item(bill_item: list[str]) -> dict[str, Any]:
+def t_bill_item(first_name, last_name, product_name, price, quantity, product_description = ""):
     return {
-        "first_name": normalize_string(bill_item[0]),
-        "last_name": normalize_string(bill_item[1]),
-        "product_name": normalize_string(bill_item[2]),
-        "product_description": normalize_string(bill_item[3]),
-        "price": normalize_price(bill_item[4]),
-        "quantity": int(bill_item[5])
+        "first_name": first_name,
+        "last_name": last_name,
+        "product_name": product_name,
+        "product_description": product_description,
+        "price": price,
+        "quantity": quantity
     }
+
+def extract_bill_item(bill_item: list[str]) -> dict[str, Any]:
+    return t_bill_item(
+        first_name = normalize_string(bill_item[0]),
+        last_name = normalize_string(bill_item[1]),
+        product_name = normalize_string(bill_item[2]),
+        product_description = normalize_string(bill_item[3]),
+        price = normalize_price(bill_item[5]),
+        quantity = int(bill_item[4])
+    )
+
+def add_discount(bills):
+    if DISCOUNT_EUR == 0:
+        return bills
+
+    for bill_key, bill_items in bills.items():
+        bill_items.append(t_bill_item(
+            first_name = bill_key[0],
+            last_name = bill_key[1],
+            product_name = DISCOUNT_TITLE,
+            price = -DISCOUNT_EUR,
+            quantity = 1
+        ))
+
+    return bills
 
 def import_bills(file_path: Path) -> dict[tuple, list[dict[str: Any]]]:
     bills: dict[tuple, list[dict[str: Any]]] = {}
@@ -54,6 +82,8 @@ def import_bills(file_path: Path) -> dict[tuple, list[dict[str: Any]]]:
                 bills[(bill_item["first_name"], bill_item["last_name"])] = []
 
             bills[(bill_item["first_name"], bill_item["last_name"])].append(bill_item)
+
+    bills = add_discount(bills)
 
     return bills
 
