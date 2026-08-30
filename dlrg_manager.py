@@ -22,7 +22,8 @@ class Bill_Import:
 
         return mitglieder
 
-    def __init__(self, billing_date, due_days, buchhaltungskonto, sk42_sphaere, kostenstelle, mwst_satz, mitglieder_path, mitglieder_has_header, mitglieder_seperator):
+    def __init__(self, bill_title, billing_date, due_days, buchhaltungskonto, sk42_sphaere, kostenstelle, mwst_satz, mitglieder_path, mitglieder_has_header, mitglieder_seperator):
+        self.bill_title = bill_title
         self.billing_date = billing_date
         self.due_days = due_days
         self.buchhaltungskonto = buchhaltungskonto
@@ -54,7 +55,7 @@ class Bill_Import:
     def add_bill_item(self, bill_index, product_name, price, quantity):
         bill = self.bills[bill_index]
         bill["bill_items"].append({
-            "bill_title": f"Pfingstzeltlager 2026 {bill['first_name']} {bill['last_name']}",
+            "bill_title": self.bill_title,
             "item_title": product_name,
             "item_description": f"",
             "quantity": quantity,

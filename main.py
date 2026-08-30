@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Any
 import dlrg_manager
 
+BILL_TITLE = "Pfingstzeltlager 2026"
 BILLING_DATE = "2026-07-01"
 DUE_DAYS = 14
 BUCHHALTUNGSKONTO = "42035"
@@ -60,6 +61,7 @@ if __name__ == "__main__":
     bills: dict[tuple, list[dict[str: Any]]] = import_bills(import_path)
 
     manager_bill_import = dlrg_manager.Bill_Import(
+        bill_title=BILL_TITLE,
         billing_date=BILLING_DATE,
         due_days=DUE_DAYS,
         buchhaltungskonto=BUCHHALTUNGSKONTO,
