@@ -1,5 +1,5 @@
 # dlrg_mngr_bill_import
-A software to import bills into the DLRG-Manager
+A software to generate and import bills into the DLRG-Manager
 
 ## install
 ```sh
